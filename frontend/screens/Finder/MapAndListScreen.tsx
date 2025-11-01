@@ -48,7 +48,7 @@ const MapAndListScreen = () => {
 
   
   const fetchCoffeeShops = async () => {
-    const API_URL = "http://localhost:8000/api/v1/cafe/"; 
+    const API_URL = "https://roastroute.onrender.com/api/v1/cafe/"; 
     try {
       setLoading(true);
       const response = await axios.get(API_URL);
@@ -74,7 +74,7 @@ const MapAndListScreen = () => {
 
   // Handle navigation 
   const handleShopPress = (shop: any) => {
-    navigation.navigate("ShopDetail" as never, { shopId: shop.id } as never);
+    navigation.navigate("ShopDetail" as never, { id: shop._id } as never);
   };
 
 
@@ -116,7 +116,7 @@ const MapAndListScreen = () => {
         >
           {shops.map((shop) => (
             <Marker
-              key={shop.id}
+              key={shop._id}
               coordinate={{ latitude: shop.latitude, longitude: shop.longitude }}
               title={shop.name}
               description={shop.address}
@@ -127,17 +127,18 @@ const MapAndListScreen = () => {
       )}
 
       <FlatList
-        data={shops}
-        keyExtractor={(item) => item.id.toString()}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.item} onPress={() => handleListPress(item)}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.address}>{item.address}</Text>
-          </TouchableOpacity>
-        )}
-        style={styles.list}
-      />
+  data={shops}
+  keyExtractor={(item) => item._id.toString()}
+  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+  renderItem={({ item }) => (
+    <TouchableOpacity style={styles.item} onPress={() => handleListPress(item)}>
+      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.address}>{item.address}</Text>
+    </TouchableOpacity>
+  )}
+  style={styles.list}
+/>
+
     </View>
   );
 };

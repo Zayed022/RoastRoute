@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "RoastRoute",
+    "slug": "roastroute",
+    "entryPoint": "./App.tsx",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./frontend/assets/images/icon.png",
+    "userInterfaceStyle": "automatic",
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./frontend/assets/images/android-icon-foreground.png",
+        "backgroundImage": "./frontend/assets/images/android-icon-background.png",
+        "monochromeImage": "./frontend/assets/images/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./frontend/assets/images/favicon.png"
+    }
+  }
+}

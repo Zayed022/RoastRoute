@@ -22,7 +22,7 @@ const FavoritesScreen = () => {
 
   // 🔹 Fetch all shops from backend
   const fetchAllShops = async () => {
-    const API_URL = "http://localhost:8000/api/v1/cafe"; // your backend endpoint
+    const API_URL = "https://roastroute.onrender.com/api/v1/cafe/"; // your backend endpoint
     try {
       const response = await axios.get(API_URL);
       return response.data;
@@ -42,7 +42,7 @@ const FavoritesScreen = () => {
       setFavorites(favIds);
 
       const allShops = await fetchAllShops();
-      const filtered = allShops.filter((shop: any) => favIds.includes(shop.id));
+      const filtered = allShops.filter((shop: any) => favIds.includes(shop._id));
       setShops(filtered);
     } catch (error) {
       console.error("Error loading favorites:", error);
@@ -89,16 +89,17 @@ const FavoritesScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={shops}
-        keyExtractor={(item) => item.id.toString()}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.item} onPress={() => handleShopPress(item.id)}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.address}>{item.address}</Text>
-          </TouchableOpacity>
-        )}
-      />
+  data={shops}
+  keyExtractor={(item) => item._id.toString()}
+  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+  renderItem={({ item }) => (
+    <TouchableOpacity style={styles.item} onPress={() => handleShopPress(item._id)}>
+      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.address}>{item.address}</Text>
+    </TouchableOpacity>
+  )}
+/>
+
     </View>
   );
 };

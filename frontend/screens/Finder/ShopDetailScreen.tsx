@@ -13,7 +13,7 @@ const ShopDetailScreen = () => {
 
   // 🔹 Fetch shop details
   const fetchShopDetails = async () => {
-    const API_URL = `http://localhost:8000/api/v1/cafe/${id}`; 
+    const API_URL = `https://roastroute.onrender.com/api/v1/cafe/${id}`; 
     try {
       setLoading(true);
       const response = await axios.get(API_URL);

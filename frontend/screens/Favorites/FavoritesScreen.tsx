@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import {
   View,
   Text,
@@ -12,12 +12,14 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import MapView from "react-native-maps";
 
 const FavoritesScreen = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [shops, setShops] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+    const mapRef = useRef<MapView>(null);
   const navigation = useNavigation();
 
   // 🔹 Fetch all shops from backend
@@ -66,8 +68,25 @@ const FavoritesScreen = () => {
   );
 
   const handleShopPress = (id: string) => {
-    navigation.navigate("ShopDetail" as never, { id } as never);
-  };
+  navigation.navigate("ShopDetail" as never, { id } as never);
+};
+
+const handleListPress = (shop: any) => {
+  mapRef.current?.animateToRegion(
+    {
+      latitude: shop.latitude,
+      longitude: shop.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    },
+    1000
+  );
+
+  handleShopPress(shop._id); // ✅ Pass just the ID
+};
+
+
+
 
   if (loading) {
     return (
@@ -93,7 +112,7 @@ const FavoritesScreen = () => {
   keyExtractor={(item) => item._id.toString()}
   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
   renderItem={({ item }) => (
-    <TouchableOpacity style={styles.item} onPress={() => handleShopPress(item._id)}>
+    <TouchableOpacity style={styles.item} onPress={() => handleListPress(item)}>
       <Text style={styles.name}>{item.name}</Text>
       <Text style={styles.address}>{item.address}</Text>
     </TouchableOpacity>
